@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  {% for recipe in recipes %}
+  <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+    <div class="p-6">
+      <div class="flex justify-between items-start">
+        <h2 class="text-xl font-bold text-gray-800 mb-2">{{ recipe.title }}</h2>
+        <span class="inline-block px-2 py-1 text-sm bg-blue-100 text-blue-800 rounded">
+          {{ recipe.category.name }}
+        </span>
+      </div>
+
+      <p class="text-gray-600 mb-4">Description: {{ recipe.description }}</p>
+
+      <div class="flex items-center text-gray-500 text-sm">
+        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>Temps: {{ recipe.prep_time }} minutes</span>
+      </div>
+    </div>
+
+    <div class="px-6 py-4 bg-gray-50 border-t">
+      <a href="{{ url_for('recipe_detail', recipe_id=recipe.id) }}"
+        class="text-blue-600 hover:text-blue-800 font-medium">
+        Voir la recette →
+      </a>
+    </div>
+  </article>
+  {% endfor %}
+</div>
+
+{% if not recipes %}
+<div class="text-center py-12">
+  <p class="text-gray-600 text-lg">Aucune recette trouvée.</p>
+</div>
+{% endif %} {% endblock %}

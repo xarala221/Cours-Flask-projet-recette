@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+  <div class="p-8">
+    <div class="flex justify-between items-start mb-6">
+      <div>
+        <h1 class="text-3xl font-bold text-gray-900">{{ recipe.title }}</h1>
+        <span class="inline-block mt-2 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+          {{ recipe.category.name }}
+        </span>
+      </div>
+
+      <div class="flex space-x-4">
+        <a href="{{ url_for('edit_recipe', recipe_id=recipe.id) }}"
+          class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">
+          Modifier
+        </a>
+
+        <form action="{{ url_for('delete_recipe', recipe_id=recipe.id) }}" method="POST"
+          onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette recette ?');" class="inline">
+          <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">
+            Supprimer
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="prose max-w-none">
+      <div class="mb-8">
+        <p class="text-gray-600">{{ recipe.description }}</p>
+        <p class="mt-2 text-gray-500">
+          <span class="font-medium">Temps de préparation:</span>
+          {{ recipe.prep_time }} minutes
+        </p>
+      </div>
+
+      <div class="mb-8">
+        <h2 class="text-2xl font-bold mb-4">Ingrédients</h2>
+        <ul class="list-disc pl-5 space-y-2">
+          {% for ingredient in recipe.ingredients.split('\n') %}
+          {% if ingredient.strip() %}
+          <li class="text-gray-700">{{ ingredient.strip() }}</li>
+          {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-2xl font-bold mb-4">Instructions</h2>
+        <ol class="list-decimal pl-5 space-y-4">
+          {% for step in recipe.instructions.split('\n') %}
+          {% if step.strip() %}
+          <li class="text-gray-700">{{ step.strip() }}</li>
+          {% endif %}
+          {% endfor %}
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

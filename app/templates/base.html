@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Blog de Recettes{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50">
+  <nav class="bg-white shadow-lg">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="flex justify-between items-center py-4">
+        <a href="/" class="text-xl font-bold text-gray-800">Blog de Recettes</a>
+        <div class="flex space-x-4">
+          {% for category in categories %}
+          <a href="{{ url_for('category', category_id=category.id) }}" class="text-gray-600 hover:text-gray-900">
+            {{ category.name }}
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div>
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+    <div
+      class="mb-4 p-4 rounded-lg {% if category == 'error' %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %}">
+      {{ message }}
+    </div>
+    {% endfor %} {% endif %} {% endwith %}
+  </div>
+
+  <main class="container mx-auto px-4 py-8">
+    <div class="flex items-center space-x-4 mb-4">
+      <a href="{{ url_for('new_recipe') }}" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+        Nouvelle recette
+      </a>
+    </div>
+    {% block content %}
+    <!-- le contenu ici -->
+    {% endblock %}
+  </main>
+</body>
+
+</html>
